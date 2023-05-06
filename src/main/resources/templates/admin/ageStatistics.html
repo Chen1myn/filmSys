@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Management Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script>
+</head>
+<body>
+<div>
+    <ul class="nav nav-tabs nav-justified">
+        <li  ><a href="/toAdmin">Home</a></li>
+        <li  ><a href="/toFilmAddition">Film addition</a></li>
+        <li  ><a href="/toFilmManage">Film management</a></li>
+        <li  ><a href="/toFilmScore">Film Score</a></li>
+        <li  ><a href="/toRateStatistics">Audience rating</a></li>
+        <li  ><a href="/toTypeStatistics">Type statistics</a></li>
+        <li  class="active"><a href="/toAgeStatistics">Age statistics</a></li>
+        <li  ><a href="/">exit</a></li>
+
+    </ul>
+</div>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 60%;height:80vh;margin: 2% auto"></div>
+<script type="text/javascript">
+
+    var chartDom = document.getElementById('main');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+        title: {
+            text: 'Age Statistics ',
+            left: 'center'
+        },
+        xAxis: {
+            type: 'category',
+            data: [
+
+            ]
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                data: [
+
+                ],
+                type: 'line',
+                smooth: true
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+
+
+
+    fetch("/ageStatistics").then(response => response.json()).then(res=>{
+        res.forEach(item=>{
+            option.xAxis.data.push({value: item.age})
+            option.series[0].data.push({value:item.num})
+        })
+        option && myChart.setOption(option);
+    })
+</script>
+</body>
+</html>

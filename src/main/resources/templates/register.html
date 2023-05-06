@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        body {
+            background-color: cadetblue;
+            background-repeat:no-repeat ;
+            background-size:100% 100%;
+            background-attachment: fixed;
+        }
+        #box {
+            width: 20%;
+            margin: 10% auto;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 1%;
+        }
+        p {
+            font-size: 15px;
+            color: #ff0000;
+        }
+    </style>
+</head>
+<script type="text/javascript">
+    function reSet(){
+        $('#account').val('');
+        $('#name').val('');
+        $('#address').val('');
+        $('#age').val('');
+    }
+
+    function register() {
+        $.ajax({
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/register" ,//url
+            data: $('#form1').serialize(),
+            success: function (data) {
+                if (data.status=="NULL"){
+                    alert("Can not be empty！")
+                }else if (data.status=="EXISTS"){
+                    alert("Account already exists！")
+                }else if (data.status=="SUCCESS"){
+                    alert("Registered successfully！");
+                    reSet();
+                }
+            },
+            error : function() {
+                alert("error！");
+            }
+        });
+    }
+</script>
+<body>
+<div id="box">
+    <form id="form1" onsubmit="return false" action="##" method="post">
+        <center><h3>Register</h3></center>
+        account：<input id="account"  class="form-control" type="text" name="account">
+        <br/>
+        password：<input id="pwd"  class="form-control"  type="text" name="pwd">
+        <br/>
+        age：<input id="age" onkeyup="this.value=this.value.replace(/\D/g,'')" class="form-control"  type="text" name="age">
+        <br/>
+        <center>
+            <input type="radio" checked="checked" name="gender" value="男">
+            <font>man</font>&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="gender" value="女">
+            <font>woman</font>
+        </center>
+        <br/>
+        address：<input id="address" class="form-control"  type="text" name="address">
+        <br/>
+        <center>
+            <input class="btn btn-success" onclick="register()" type="button" value="Register"/>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a class="btn btn-primary" href="/">Return to login</a>
+        </center>
+    </form>
+
+</div>
+</body>
+
+</html>

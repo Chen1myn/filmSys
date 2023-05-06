@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Management Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div>
+    <ul class="nav nav-tabs nav-justified">
+        <li  ><a href="/toAdmin">Home</a></li>
+        <li  ><a href="/toFilmAddition">Film addition</a></li>
+        <li  class="active"><a href="/toFilmManage">Film management</a></li>
+        <li  ><a href="/toFilmScore">Film Score</a></li>
+        <li  ><a href="/toRateStatistics">Audience rating</a></li>
+        <li  ><a href="/toTypeStatistics">Type statistics</a></li>
+        <li  ><a href="/toAgeStatistics">Age statistics</a></li>
+        <li  ><a href="/">exit</a></li>
+
+    </ul>
+</div>
+<div style="width: 90%;margin: 2% auto;">
+    <table class="table table-striped table-bordered table-hover  table-condensed">
+        <thead>
+        <th>id</th>
+        <th>name</th>
+        <th>type</th>
+        <th>rate</th>
+        <th>img</th>
+        <th>video</th>
+        <th>operate</th>
+        </thead>
+        <tbody>
+        <tr th:each="f : ${files}">
+            <td><span th:text="${f.id}"></span></td>
+            <td><span th:text="${f.fname}"></span></td>
+            <td><span th:text="${f.type}"></span></td>
+            <td><span th:text="${f.rate}"></span></td>
+            <td><img width="80px" height="80px" th:src="@{static/img/{filename}(filename=${f.img})}"></td>
+            <td><span th:text="${f.video}"></span></td>
+            <td>
+                <a class="btn btn-danger" th:href="@{deleteFilm(id=${f.id})}">delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
